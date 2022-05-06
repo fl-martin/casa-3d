@@ -1,67 +1,94 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+		<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-		<!--<script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>-->
-		<!--<script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>-->
-		<script defer src="components/click-upstairs.js"></script>
-		<script defer src="components/click-downstairs.js"></script>
-		<script defer src="components/auto-shape.js"></script>
+		<script src="https://unpkg.com/aframe-aabb-collider-component@3.1.0/dist/aframe-aabb-collider-component.min.js"></script>
+		<script defer src="components/elevator.js"></script>
+		<script defer src="components/loading-screen.js"></script>
+		<script defer src="components/collision-handler.js"></script>
+		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<div>
-			<button id="elevator" type="button">1st floor</button>
+		<div id="loading-page" class="full-vp">
+			<div class="lds-grid">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 		</div>
-		<a-scene>
+		<div>
+			<button id="elevator" type="button" class="button fixed-pos hide">
+				1era planta
+			</button>
+		</div>
+		<a-scene elevator>
 			<a-assets>
 				<a-asset-item
 					id="casa"
 					src="./assets/gltf-low/Emplazamiento.gltf"
 				></a-asset-item>
-				<a-asset-item
-					id="arrow"
-					src="./assets/arrow/arrow.gltf"
-				></a-asset-item>
+				<img id="sea" src="assets/sea.jpeg" />
 			</a-assets>
 			<a-entity
 				id="rig"
-				animation__upstairs="property: object3D.position.y; to: 4.2; easing: easeInOutQuad; dur: 3000; startEvents: upstairs"
-				animation__downstairs="property: object3D.position.y; to: 0; easing: easeInOutQuad; dur: 3000; startEvents: downstairs"
+				animation__upstairs="property: object3D.position.y; to: 3.3; easing: easeInOutQuad; dur: 3000; startEvents: upstairs"
+				animation__downstairs="property: object3D.position.y; to: 0; easing: easeInOutQuad; dur: 2500; startEvents: downstairs"
 				movement-controls
-				position="-7 0 47"
+				position="-7 0 42"
+				aabb-collider="objects: .box; collideNonVisible: true"
+				geometry
+				opacity="0"
+				collision-handler
 			>
-				<a-entity id="camera" camera look-controls position="0 1.2 0">
-					<a-entity
-						cursor
-						raycaster="objects: .clickable"
-						position="0 0 -1"
-						geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-						material="color: black; shader: flat"
-					>
-					</a-entity
+				<a-entity
+					id="camera"
+					camera
+					look-controls
+					position="0 1.5 0"
 				></a-entity>
 			</a-entity>
-			<a-entity
-				gltf-model="#arrow"
-				class="clickable"
-				click-upstairs
-				position="-7 1.1 40.5"
-				rotation="0 0 90"
-				scale="0.003 0.002 0.001"
-				animation="property: position; from: -7 1.1 40.5; to: -7 1.3 40.5; loop: true; dir: alternate; dur: 1000; easing: easeInOutQuad"
-			></a-entity>
-			<a-entity
-				gltf-model="#arrow"
-				class="clickable"
-				click-downstairs
-				position="-8 4.2 25"
-				rotation="0 0 -90"
-				scale="0.003 0.002 0.001"
-				animation="property: position; from: -8 4.2 25; to: -8 4.4 25; loop: true; dir: alternate; dur: 1000; easing: easeInOutQuad"
-			></a-entity>
-			<a-entity gltf-model="#casa"></a-entity>
+			<a-entity gltf-model="#casa" loading-screen></a-entity>
+			<a-box
+				class="box"
+				position="35.6 4 0.5"
+				width="33"
+				height="7.5"
+				depth="12.5"
+				visible="false"
+			></a-box>
+			<a-box
+				class="box"
+				position="35.6 4 23.1"
+				width="33"
+				height="7.5"
+				depth="12.5"
+				visible="false"
+			></a-box>
+			<a-box
+				class="box"
+				position="3.1 4 0.5"
+				width="26"
+				height="7.5"
+				depth="12.5"
+				visible="false"
+			></a-box>
+			<a-box
+				class="box"
+				position="3.1 4 23.1"
+				width="26"
+				height="7.5"
+				depth="13"
+				visible="false"
+			></a-box>-->
 			<a-entity light="type: ambient; color: white"></a-entity>
+			<a-sky src="#sea"></a-sky>
 		</a-scene>
 	</body>
 </html>
