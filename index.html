@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+		<!--<script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>-->
+		<!--<script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>-->
+		<script defer src="components/click-upstairs.js"></script>
+		<script defer src="components/click-downstairs.js"></script>
+		<script defer src="components/auto-shape.js"></script>
+	</head>
+	<body>
+		<div>
+			<button id="elevator" type="button">1st floor</button>
+		</div>
+		<a-scene>
+			<a-assets>
+				<a-asset-item
+					id="casa"
+					src="./assets/gltf-low/Emplazamiento.gltf"
+				></a-asset-item>
+				<a-asset-item
+					id="arrow"
+					src="./assets/arrow/arrow.gltf"
+				></a-asset-item>
+			</a-assets>
+			<a-entity
+				id="rig"
+				animation__upstairs="property: object3D.position.y; to: 4.2; easing: easeInOutQuad; dur: 3000; startEvents: upstairs"
+				animation__downstairs="property: object3D.position.y; to: 0; easing: easeInOutQuad; dur: 3000; startEvents: downstairs"
+				movement-controls
+				position="-7 0 47"
+			>
+				<a-entity id="camera" camera look-controls position="0 1.2 0">
+					<a-entity
+						cursor
+						raycaster="objects: .clickable"
+						position="0 0 -1"
+						geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+						material="color: black; shader: flat"
+					>
+					</a-entity
+				></a-entity>
+			</a-entity>
+			<a-entity
+				gltf-model="#arrow"
+				class="clickable"
+				click-upstairs
+				position="-7 1.1 40.5"
+				rotation="0 0 90"
+				scale="0.003 0.002 0.001"
+				animation="property: position; from: -7 1.1 40.5; to: -7 1.3 40.5; loop: true; dir: alternate; dur: 1000; easing: easeInOutQuad"
+			></a-entity>
+			<a-entity
+				gltf-model="#arrow"
+				class="clickable"
+				click-downstairs
+				position="-8 4.2 25"
+				rotation="0 0 -90"
+				scale="0.003 0.002 0.001"
+				animation="property: position; from: -8 4.2 25; to: -8 4.4 25; loop: true; dir: alternate; dur: 1000; easing: easeInOutQuad"
+			></a-entity>
+			<a-entity gltf-model="#casa"></a-entity>
+			<a-entity light="type: ambient; color: white"></a-entity>
+		</a-scene>
+	</body>
+</html>
